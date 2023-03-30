@@ -5,26 +5,18 @@
 #include <stdlib.h>
 
 typedef unsigned int u32;
-/*
-    VerticeST
-    Esta estructura guarda informacion de un vertice
-*/
 
-typedef struct VerticeSt
+typedef struct VerticeSt //Esta estructura guarda informacion de un vertice.
 {
     u32 nombre;
     u32 grado;
     u32 *vecinos; 
 } VerticeSt;
-
-/*  GrafoSt
-    Estructura que sirve para guardar el grafo propiamente dicho.
-*/
-
-typedef struct GrafoSt
+    
+typedef struct GrafoSt //Estructura que sirve para guardar el grafo propiamente dicho.
 {
-    u32 vertices;
-    u32 lados;
+    u32 num_vertices;
+    u32 num_lados;
     u32 delta;
     VerticeSt vertices[];   
 } GrafoSt;
