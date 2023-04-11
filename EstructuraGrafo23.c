@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-
+#include <inttypes.h>
 #include "EstructuraGrafo23.h"
 #include "APIG23.h"
 
@@ -11,9 +11,9 @@ static int cmp(const void *_a, const void *_b)
 {
 	const u32 *a = _a;
 	const u32 *b = _b;
-	if (a[0] < b[0] || (a[0] = b[0] && a[1] < b[1]))
-    	return -1;
-    if (a[0] > b[0] || (a[0] = b[0] && a[1] > b[1]))
+	if (a[0] < b[0] || (a[0] == b[0] && a[1] < b[1]))
+		return -1;
+	if (a[0] > b[0] || (a[0] == b[0] && a[1] > b[1]))
 		return 1;
 	return 0;
 }
@@ -45,9 +45,9 @@ static u32 *Lectura(u32 * n, u32 * m)
 	if (lados == NULL)
 		return NULL;
 
-	for (size_t i = 0; i < *m * 2; i += 2) {
+	for (u32 i = 0; i < *m * 2; i += 2) {
 		res =
-		    scanf(" e %" PRIu32 " %" PRIu32, &lados[i], &lados[i + 1]);
+			scanf(" e %" PRIu32 " %" PRIu32, &lados[i], &lados[i + 1]);
 		if (res != 2) {
 			free(lados);
 			return NULL;
@@ -62,7 +62,7 @@ static u32 *Lectura(u32 * n, u32 * m)
 
 Grafo ConstruccionDelGrafo()
 {
-    u32 *lados, n, m;
+	u32 *lados, n, m;
 	lados = Lectura(&n, &m);
 	if (lados == NULL)
 		return NULL;
@@ -76,7 +76,8 @@ Grafo ConstruccionDelGrafo()
 	g->num_lados = m;
 	g->delta = 0;
 
-    qsort(nodos, m, sizeof(u32) * 2 , cmp);
+	qsort(lados, m, sizeof(u32) * 2 , cmp);
+
 }
 
 
@@ -93,45 +94,45 @@ void DestruccionDelGrafo(Grafo G)
 //funciones para extraer datos del grafo. u32 debe estar definida en el .h de arriba
 
 u32 NumeroDeVertices(Grafo G){
-    assert (G != NULL);
-    return G->num_vertices;
+	assert (G != NULL);
+	return G->num_vertices;
 }
 
 u32 NumeroDeLados(Grafo G){
-    assert (G != NULL);
-    return G->num_lados;
+	assert (G != NULL);
+	return G->num_lados;
 }
 
 u32 Delta(Grafo G){
-    assert (G != NULL);
-    return G->delta;
+	assert (G != NULL);
+	return G->delta;
 }
 
 
-//funciones de extraccion de informacion de vertices 
+//funciones de extraccion de informacion de vertices
 
 u32 Nombre(u32 i,Grafo G){
-    assert (G != NULL);
-    assert (i < G->num_vertices);
+	assert (G != NULL);
+	assert (i < G->num_vertices);
 
-    return G->vertices[i].nombre;
+	return G->vertices[i].nombre;
 }
 
 u32 Grado(u32 i,Grafo G){
-    assert (G != NULL);
-    
-    if (i >= G->num_vertices)
-    {
-        return __UINT32_MAX__;
-    }
-    return G->vertices[i].grado;
+	assert (G != NULL);
+
+	if (i >= G->num_vertices)
+	{
+		return __UINT32_MAX__;
+	}
+	return G->vertices[i].grado;
 }
 
 u32 IndiceVecino(u32 j,u32 i,Grafo G){
-    assert (G != NULL);
-    if (i >= G->num_vertices || j >= G->vertices[i].grado)
-    {
-        return __UINT32_MAX__;
-    }
-    return G->vertices[i].vecinos[j];
+	assert (G != NULL);
+	if (i >= G->num_vertices || j >= G->vertices[i].grado)
+	{
+		return __UINT32_MAX__;
+	}
+	return G->vertices[i].vecinos[j];
 }

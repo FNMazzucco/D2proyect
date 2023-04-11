@@ -6,8 +6,8 @@
 
 int main(int argc, char const *argv[])
 {
-    /*
     Grafo G = ConstruccionDelGrafo();
+    /*
     u32 Nvertices = NumeroDeVertices(G);
     u32 Nlados = NumeroDeLados(G);
     u32 delta = Delta(G);
